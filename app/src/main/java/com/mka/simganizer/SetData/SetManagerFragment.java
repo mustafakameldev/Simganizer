@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.mka.simganizer.R;
 
@@ -19,16 +20,8 @@ import com.mka.simganizer.R;
  * Use the {@link SetManagerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SetManagerFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+public class SetManagerFragment extends Fragment implements View.OnClickListener  {
+   private Button btn_next , btn_previous ;
     private OnFragmentInteractionListener mListener;
 
     public SetManagerFragment() {
@@ -47,8 +40,7 @@ public class SetManagerFragment extends Fragment {
     public static SetManagerFragment newInstance(String param1, String param2) {
         SetManagerFragment fragment = new SetManagerFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,8 +49,7 @@ public class SetManagerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -66,7 +57,17 @@ public class SetManagerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_set_manager, container, false);
+        View view =inflater.inflate(R.layout.fragment_set_manager, container, false);
+
+        btn_next =(Button)view.findViewById(R.id.btn_next_setManagerFragment);
+        btn_previous=(Button)view.findViewById(R.id.btn_previous_SetManagerFrgment);
+        btn_next.setOnClickListener(this);
+        btn_previous.setOnClickListener(this);
+        btn_previous.setVisibility(View.GONE);
+
+
+
+        return view ;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,6 +93,18 @@ public class SetManagerFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+    @Override
+    public void onClick(View view) {
+        if(view== btn_next)
+        {
+            SetAuthForManagerFragment fragment = new SetAuthForManagerFragment();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+        }
+    }
+
+
 
     /**
      * This interface must be implemented by activities that contain this
